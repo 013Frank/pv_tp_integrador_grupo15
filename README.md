@@ -4,3 +4,4 @@
 * Armella Julian - ususario:Jul772
 * Siomara Jael Guanca Venicio - usuario: siomaraven
 * Sofia Guadalupe Cabana - usuario : sofiii3
+* Marcos Alejandro Nicolás Chavarria - usuario : NiVerenC
