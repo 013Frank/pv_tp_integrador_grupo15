@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Intel Core i7-13700K",
+    "price": 429.99,
+    "description": "Procesador de alta gama para tareas exigentes y gaming.",
+    "category": "Procesadores",
+    "image": "/images/procesador1.jpeg"
+  },
+  {
+    "id": "2",
+    "title": "AMD Ryzen 9 7900X",
+    "price": 549.99,
+    "description": "Procesador potente para gaming y productividad.",
+    "category": "Procesadores",
+    "image": "/images/procesador2.jpg"
+  },
+  {
+    "id": "3",
+    "title": "Intel Core i5-12400",
+    "price": 199.99,
+    "description": "Procesador de gama media para PC de uso general.",
+    "category": "Procesadores",
+    "image": "/images/procesador3.jpeg"
+  }
+]
