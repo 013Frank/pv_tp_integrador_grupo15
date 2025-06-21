@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import { ProductsContext } from '../context/ProductsContext';
+import { useSelector } from 'react-redux';
 import { Grid, Typography } from '@mui/material';
 import ProductCard from '../components/ProductCard';
 
 const Favorites = () => {
-  const { products, favorites } = useContext(ProductsContext);
+  const products = useSelector(state => state.products);
+  const favorites = useSelector(state => state.favorites);
 
   const favoriteProducts = products.filter(p => favorites.includes(p.id));
 

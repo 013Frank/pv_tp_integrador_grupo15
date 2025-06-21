@@ -1,61 +1,82 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ProductsContext } from '../context/ProductsContext';
+
+const initialFormState = {
+  title: '',
+  price: '',
+  description: '',
+  category: '',
+  image: ''
+};
 
 const ProductForm = () => {
   const { addProduct, updateProduct, products } = useContext(ProductsContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const editingProduct = products.find(p => p.id === id);
+  const editingProduct = useMemo(
+    () => products.find(p => p.id === id),
+    [products, id]
+  );
 
-  const [formData, setFormData] = useState({
-    title: '',
-    price: '',
-    description: '',
-    category: '',
-    image: ''
-  });
+  const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
     if (editingProduct) {
       setFormData({
-        title: editingProduct.title,
-        price: editingProduct.price,
-        description: editingProduct.description,
-        category: editingProduct.category,
-        image: editingProduct.image
+        title: editingProduct.title || '',
+        price: editingProduct.price || '',
+        description: editingProduct.description || '',
+        category: editingProduct.category || '',
+        image: editingProduct.image || ''
       });
+    } else {
+      setFormData(initialFormState);
     }
   }, [editingProduct]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    if (!formData.title.trim() || !formData.price) return;
+    const productData = {
+      ...formData,
+      price: Number(formData.price)
+    };
     if (editingProduct) {
-      updateProduct(editingProduct.id, formData);
+      updateProduct(editingProduct.id, productData);
     } else {
-      addProduct({ ...formData, id: Date.now().toString() });
+      addProduct({ ...productData, id: Date.now().toString() });
     }
     navigate('/');
-  };
+  }, [formData, editingProduct, updateProduct, addProduct, navigate]);
 
   return (
-    <Box maxWidth={600} margin="auto" padding={2}>
+    <Box
+      maxWidth={600}
+      margin="auto"
+      padding={2}
+      component="form"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
       <Typography variant="h4" gutterBottom>
         {editingProduct ? 'Editar Producto' : 'Crear Nuevo Producto'}
       </Typography>
       <TextField
         fullWidth
-        label="Titulo"
+        label="Título"
         name="title"
         value={formData.title}
         onChange={handleChange}
         margin="normal"
+        required
       />
       <TextField
         fullWidth
@@ -65,6 +86,8 @@ const ProductForm = () => {
         value={formData.price}
         onChange={handleChange}
         margin="normal"
+        required
+        inputProps={{ min: 0, step: "any" }}
       />
       <TextField
         fullWidth
@@ -92,8 +115,12 @@ const ProductForm = () => {
         onChange={handleChange}
         margin="normal"
       />
-
-      <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ marginTop: 2 }}>
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        sx={{ marginTop: 2 }}
+      >
         Guardar
       </Button>
     </Box>

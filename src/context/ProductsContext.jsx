@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 
 export const ProductsContext = createContext();
 
@@ -7,8 +7,7 @@ export const ProductsProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    // Cambia la carga desde API por carga desde JSON en public/
-    fetch('/productos.json')
+    fetch('https://fakestoreapi.com/products')
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error("Error cargando productos desde JSON:", err));
