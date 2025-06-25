@@ -1,7 +1,8 @@
-import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useDispatch, useSelector  } from 'react-redux';
+import { addProduct, updateProduct } from '../redux/productsSlice';
 import { TextField, Button, Typography, Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ProductsContext } from '../context/ProductsContext';
 
 const initialFormState = {
   title: '',
@@ -12,7 +13,8 @@ const initialFormState = {
 };
 
 const ProductForm = () => {
-  const { addProduct, updateProduct, products } = useContext(ProductsContext);
+  const dispatch = useDispatch();
+  const products = useSelector(state => state.products.items);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -50,12 +52,12 @@ const ProductForm = () => {
       price: Number(formData.price)
     };
     if (editingProduct) {
-      updateProduct(editingProduct.id, productData);
+      dispatch(updateProduct({ id: editingProduct.id, data: productData }));
     } else {
-      addProduct({ ...productData, id: Date.now().toString() });
+      dispatch(addProduct(productData));
     }
     navigate('/');
-  }, [formData, editingProduct, updateProduct, addProduct, navigate]);
+  }, [formData, editingProduct, dispatch, navigate]);
 
   return (
     <Box

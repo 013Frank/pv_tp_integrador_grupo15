@@ -1,22 +1,22 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { ProductsContext } from '../context/ProductsContext';
+import { useSelector, useDispatch } from 'react-redux';
 import { Card, CardMedia, CardContent, Typography, Button, IconButton } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { toggleFavorite } from '../redux/productsSlice';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { products, favorites, toggleFavorite } = useContext(ProductsContext);
-
-  const product = products.find(p => String(p.id) === String(id));
+  const dispatch = useDispatch();
+  const { items: products, favorites } = useSelector(state => state.products);
+  const product = products.find(p => String(p.id) === id);
 
   if (!product) return <Typography>Producto no encontrado</Typography>;
 
   const isFavorite = favorites.includes(product.id);
 
   const handleToggleFavorite = () => {
-    toggleFavorite(product.id);
+    dispatch(toggleFavorite(product.id));
   };
 
   return (
