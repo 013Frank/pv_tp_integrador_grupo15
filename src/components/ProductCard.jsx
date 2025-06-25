@@ -9,6 +9,14 @@ const ProductCard = ({ product }) => {
   const favorites = useSelector(state => state.products.favorites);
   const isFavorite = favorites.includes(product.id);
 
+  const handleToggleFavorite = () => {
+  if (isFavorite) {
+    const confirmar = window.confirm("¿Seguro que deseas quitar este producto de favoritos?");
+    if (!confirmar) return;
+  }
+  dispatch(toggleFavorite(product.id));
+};
+
   return (
     <Card sx={{ maxWidth: 345, margin: 2, borderRadius: 4, boxShadow: 6, transition: 'transform 0.2s, box-shadow 0.2s', '&:hover': { transform: 'scale(1.03)', boxShadow: 12 }, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 420, background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
       <CardMedia
@@ -23,7 +31,15 @@ const ProductCard = ({ product }) => {
         <Typography variant="body1" color="primary" sx={{ fontWeight: 600, fontSize: 20, marginBottom: 1 }}>${product.price}</Typography>
       </CardContent>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 16 }}>
-        <IconButton onClick={() => dispatch(toggleFavorite(product.id))} sx={{ background: isFavorite ? '#ffeaea' : '#f0f0f0', '&:hover': { background: isFavorite ? '#ffd6d6' : '#e0e0e0' }, boxShadow: 1 }}>
+        <IconButton 
+          onClick={handleToggleFavorite} 
+          sx={{ 
+            background: isFavorite ? '#ffeaea' : '#f0f0f0', '&:hover': { 
+              background: isFavorite ? '#ffd6d6' : '#e0e0e0' 
+            }, 
+            boxShadow: 1 
+            }}
+        >
           {isFavorite ? <Favorite color="error" /> : <FavoriteBorder />}
         </IconButton>
         <Button
