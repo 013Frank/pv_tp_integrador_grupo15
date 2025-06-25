@@ -16,8 +16,13 @@ const ProductDetail = () => {
   const isFavorite = favorites.includes(product.id);
 
   const handleToggleFavorite = () => {
+    if (isFavorite){
+      const confirmar = window.confirm("¿Seguro que desea quitar este producto?");
+      if (!confirmar) return;
+    }
     dispatch(toggleFavorite(product.id));
   };
+
 
   return (
     <Card sx={{ maxWidth: 600, margin: 'auto', padding: 2 }}>
