@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import FavoritesPage from './pages/FavoritesPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ProductFormPage from './pages/ProductFormPage';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
           <Button color="inherit" component={Link} to="/add">
             Agregar Producto
           </Button>
+          <Button color="inherit" component={Link} to="/register">
+          Registro
+          </Button>
         </Toolbar>
       </AppBar>
       <Container style={{ marginTop: 20 }}>
@@ -29,6 +33,7 @@ function App() {
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/add" element={<ProductFormPage />} />
           <Route path="/edit/:id" element={<ProductFormPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </Container>
     </>
