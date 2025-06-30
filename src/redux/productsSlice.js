@@ -1,5 +1,3 @@
-import { Favorite, Update } from '@mui/icons-material';
-import { accordionActionsClasses } from '@mui/material';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'
 

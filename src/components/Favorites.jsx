@@ -3,8 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import ProductCard from '../components/ProductCard';
 
 const Favorites = () => {
-  const products = useSelector(state => state.products);
-  const favorites = useSelector(state => state.favorites);
+  const { items: products, favorites } = useSelector(state => state.products);
 
   const favoriteProducts = products.filter(p => favorites.includes(p.id));
 
